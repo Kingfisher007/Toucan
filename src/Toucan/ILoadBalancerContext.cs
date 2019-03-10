@@ -1,12 +1,17 @@
-    using System;
-    using System.Collections.Generic;
-	using System.Collections;
+using System;
+using System.Collections.Generic;
 using Toucan.ServiceDiscovery.Provider;
-	
-	namespace Toucan
-	{
-		public interface ILoadBalancerContext
-		{
-			List<Server> Servers { get; }
-		}
-	}
+
+namespace Toucan
+{
+    public delegate void ServerListUpdated(object sender, ServerListChangeEventArgs eventArgs);
+    public delegate void ServerStatAdded(object sender, ServerStatChangedEventArgs eventArgs);
+
+    public interface ILoadBalancerContext
+    {
+        IReadOnlyList<Server> Servers { get; }
+        IReadOnlyList<ServerStats> ServerStats { get; }
+        event ServerListUpdated OnServerListUpdated;
+        event ServerStatAdded OnServerStatsAdded;
+    }
+}

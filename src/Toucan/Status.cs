@@ -4,9 +4,9 @@ using Toucan.ServiceDiscovery.Provider;
 
 namespace Toucan
 {
-	public enum Status
-	{
-		Success,
-		Failed
-	}
+    public enum Status
+    {
+        Success,
+        Failed
+    }
 }
