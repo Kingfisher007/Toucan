@@ -4,7 +4,7 @@ using Toucan.ServiceDiscovery.Provider;
 
 namespace Toucan
 {
-    public abstract class LoadBalancerBase
+    public abstract class LoadBalancerBase : ILoadBalancer
     {
         protected LoadBalancerContext loadBalancerContext;
         protected string application;
@@ -21,7 +21,7 @@ namespace Toucan
         protected virtual void Initialise()
         {
             List<Server> servers = discoveryProvider.GetServers(application);
-            loadBalancerContext = new LoadBalancerContext(servers);
+            loadBalancerContext = new LoadBalancerContext(application, servers);
             rule.Initialise(loadBalancerContext);
         }
 

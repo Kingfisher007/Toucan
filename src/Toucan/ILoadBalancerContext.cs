@@ -9,6 +9,7 @@ namespace Toucan
 
     public interface ILoadBalancerContext
     {
+        string Application { get; }
         IReadOnlyList<Server> Servers { get; }
         IReadOnlyList<ServerStats> ServerStats { get; }
         event ServerListUpdated OnServerListUpdated;

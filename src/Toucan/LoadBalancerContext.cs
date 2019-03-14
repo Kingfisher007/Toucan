@@ -13,9 +13,16 @@ namespace Toucan
         public event ServerListUpdated OnServerListUpdated;
         public event ServerStatAdded OnServerStatsAdded;
 
-        public LoadBalancerContext(List<Server> _servers)
+        public LoadBalancerContext(string application, List<Server> _servers)
         {
+            Application = application;
             servers = _servers;
+        }
+
+        public string Application
+        {
+            get;
+            protected set;
         }
 
         public IReadOnlyList<Server> Servers { get { return servers; } }
@@ -35,14 +42,14 @@ namespace Toucan
             servers.RemoveAll(s => !serversList.Contains(s));
         }
 
-        public void AddServerStat(Server server, Status result, double timeForRequest)
+        public void AddServerStat(Server server, Status status, double duration)
         {
             ServerStats stat = serverStats.FirstOrDefault(st => st.Server.Id == server.Id);
             if (stat == null)
             {
                 stat = new ServerStats(server);
             }
-            stat.AddRequestResult(result, timeForRequest);
+            stat.AddRequestResult(status, duration);
             RaiseServerStatChanged(stat);
         }
 
