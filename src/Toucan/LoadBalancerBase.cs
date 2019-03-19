@@ -18,13 +18,6 @@ namespace Toucan
             application = applicationName;
         }
 
-        protected virtual void Initialise()
-        {
-            List<Server> servers = discoveryProvider.GetServers(application);
-            loadBalancerContext = new LoadBalancerContext(application, servers);
-            rule.Initialise(loadBalancerContext);
-        }
-
-        public abstract T OnNext<T>(Func<Server, Result<T>> func);
+        public abstract T OnNext<T>(string name, Func<Server, Result<T>> func);
     }
 }

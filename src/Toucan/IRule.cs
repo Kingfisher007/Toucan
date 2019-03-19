@@ -6,7 +6,6 @@ namespace Toucan
 {
     public interface IRule
     {
-        void Initialise(ILoadBalancerContext loadBalancerContext);
         Server GetNext();
     }
 }

@@ -13,16 +13,24 @@ namespace Toucan
         public event ServerListUpdated OnServerListUpdated;
         public event ServerStatAdded OnServerStatsAdded;
 
-        public LoadBalancerContext(string application, List<Server> _servers)
+        public LoadBalancerContext(string application, IDiscoveryProvider discoveryProvider)
         {
             Application = application;
-            servers = _servers;
+            DiscoveryProvider = discoveryProvider;
+            servers = new List<Server>();
+            serverStats = new List<ServerStats>();
         }
 
         public string Application
         {
             get;
             protected set;
+        }
+
+        protected IDiscoveryProvider DiscoveryProvider
+        {
+            set;
+            get;
         }
 
         public IReadOnlyList<Server> Servers { get { return servers; } }

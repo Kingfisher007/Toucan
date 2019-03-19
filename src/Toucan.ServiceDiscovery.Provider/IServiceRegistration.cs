@@ -6,5 +6,6 @@
 		public interface IServiceRegistration
 		{
 			void Register(Server server);
+			void DeRegister(Server server);
 		}
 	}

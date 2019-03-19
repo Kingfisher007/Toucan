@@ -8,7 +8,7 @@ namespace Toucan
     {
         int current;
 
-        public RoundRobbinRule()
+        public RoundRobbinRule(ILoadBalancerContext lbContext):base(lbContext)
         {
             current = -1;
         }

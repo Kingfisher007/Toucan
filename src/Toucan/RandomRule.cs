@@ -9,7 +9,7 @@ namespace Toucan
     {
         Random random;
 
-        public RandomRule()
+        public RandomRule(ILoadBalancerContext lbContext) : base (lbContext)
         {
             random = new Random();
         }

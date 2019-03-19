@@ -6,6 +6,6 @@ namespace Toucan
 {
     public interface ILoadBalancer
     {
-        T OnNext<T>(Func<Server, Result<T>> func);
+        T OnNext<T>(string application, Func<Server, Result<T>> func);
     }
 }

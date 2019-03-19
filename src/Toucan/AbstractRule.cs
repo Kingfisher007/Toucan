@@ -9,10 +9,10 @@ namespace Toucan
     {
         protected ILoadBalancerContext loadBalancerContext;
 
-        public abstract Server GetNext(); 
-        public virtual void Initialise(ILoadBalancerContext loadBalancerContext)
+        public AbstractRule(ILoadBalancerContext lbContext)
         {
-            this.loadBalancerContext = loadBalancerContext;
+            loadBalancerContext = lbContext;
         }
+        public abstract Server GetNext();
     }
 }

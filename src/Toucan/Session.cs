@@ -5,14 +5,14 @@ namespace Toucan
 {
     public class Session
     {
-        IDictionary<string, int> requestCount;
-        int totalRequests;
+        IDictionary<string, int> requests;
+        int requestCount;
         int cap;
 
         public Session(int Cap)
         {
-            requestCount = new Dictionary<string, int>();
-            totalRequests = 0;
+            requests = new Dictionary<string, int>();
+            requestCount = 0;
             cap = Cap;
         }
 
@@ -20,7 +20,7 @@ namespace Toucan
         {
             get
             {
-                return requestCount;
+                return requests;
             }
         }
 
@@ -28,22 +28,22 @@ namespace Toucan
         {
             get
             {
-                return totalRequests;
+                return requestCount;
             }
         }
 
         public void Increment(string serverId)
         {
-            if (requestCount[serverId] == 0)
+            if (requests[serverId] == 0)
             {
-                requestCount[serverId] = requestCount[serverId]++;
+                requests[serverId] = requests[serverId]++;
             }
             else
             {
-                requestCount[serverId] = 1;
+                requests[serverId] = 1;
             }
             //
-            if (++totalRequests == cap)
+            if (++requestCount == cap)
             {
                 Reset();
             }
@@ -51,7 +51,7 @@ namespace Toucan
 
         public void Reset()
         {
-            requestCount.Clear();
+            requests.Clear();
         }
     }
 }

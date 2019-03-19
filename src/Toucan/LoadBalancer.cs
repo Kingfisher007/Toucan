@@ -11,7 +11,7 @@ namespace Toucan
 
         }
 
-        public override T OnNext<T>(Func<Server, Result<T>> func)
+        public override T OnNext<T>(string name, Func<Server, Result<T>> func)
         {
             Status status = Status.Failed;
             int time = DateTime.Now.Millisecond;

@@ -5,20 +5,24 @@ using Toucan.ServiceDiscovery.Provider;
 
 namespace Toucan
 {
-    public class WeightedRandomRule : AbstractWeightedRule
+    public class WeightedRoundRobinRule : AbstractWeightedRule
     {
-        Random random;
+        int current;
 
-        public WeightedRandomRule(ILoadBalancerContext lbContext):base(lbContext)
+        public WeightedRoundRobinRule(ILoadBalancerContext lbContext):base(lbContext)
         {
-            random = new Random();
+            current = 0;
         }
 
         public override Server GetNext()
         {
             IList<Server> toBeSelected = GetServersList();
 
-            Server selected = toBeSelected[random.Next(toBeSelected.Count)];
+            if(++current >= toBeSelected.Count)
+            {
+                current = 0;
+            }
+            Server selected = toBeSelected[current];
             session.Increment(selected.Application);
             return selected;
         }

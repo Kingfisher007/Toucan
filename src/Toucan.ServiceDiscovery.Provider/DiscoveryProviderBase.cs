@@ -1,21 +1,21 @@
 	using System;
-    using System.Collections.Generic;
+  using System.Collections.Generic;
 	
 	namespace Toucan.ServiceDiscovery.Provider
 	{
-		public abstract class DiscoveryProviderBase : IDiscoveryProvider
+		public abstract class DiscoveryProviderBase : IDiscoveryProvider, IServiceRegistration
     {
-			IRefreshPolicy RefreshPolicy;
-			
-			public DiscoveryProviderBase(IRefreshPolicy refreshPolicy)
+			public DiscoveryProviderBase()
 			{
-				RefreshPolicy = refreshPolicy;	
+					
 			}
 			
 			event Action ServicesRefreshed;
 			
 			protected abstract void Initialise();
 			protected abstract void OnBeginRefresh();
+			public abstract void Register(Server server);
+			public abstract void DeRegister(Server server);
 			public abstract List<Server> GetServers(string application);
 		}
 	}
