@@ -1,21 +1,19 @@
-	using System;
-  using System.Collections.Generic;
-	
-	namespace Toucan.ServiceDiscovery.Provider
-	{
-		public abstract class DiscoveryProviderBase : IDiscoveryProvider, IServiceRegistration
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Toucan.ServiceDiscovery.Provider
+{
+    public abstract class DiscoveryProviderBase : IDiscoveryProvider, IServiceRegistration
     {
-			public DiscoveryProviderBase()
-			{
-					
-			}
-			
-			event Action ServicesRefreshed;
-			
-			protected abstract void Initialise();
-			protected abstract void OnBeginRefresh();
-			public abstract void Register(Server server);
-			public abstract void DeRegister(Server server);
-			public abstract List<Server> GetServers(string application);
-		}
-	}
+        public DiscoveryProviderBase()
+        {
+
+        }
+
+        protected abstract void Initialise();
+        public abstract Task Register(Server server);
+        public abstract Task DeRegister(Server server);
+        public abstract Task<List<Server>> GetServers(string application);
+    }
+}

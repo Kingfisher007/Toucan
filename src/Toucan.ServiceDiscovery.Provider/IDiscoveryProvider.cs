@@ -1,10 +1,11 @@
 	using System;
     using System.Collections.Generic;
-	
-	namespace Toucan.ServiceDiscovery.Provider
+using System.Threading.Tasks;
+
+namespace Toucan.ServiceDiscovery.Provider
 	{
 		public interface IDiscoveryProvider
 		{
-			List<Server> GetServers(string application);
+			Task<List<Server>> GetServers(string application);
 		}
 	}

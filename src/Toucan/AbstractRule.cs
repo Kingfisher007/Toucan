@@ -13,6 +13,11 @@ namespace Toucan
         {
             loadBalancerContext = lbContext;
         }
+
+        public string Application { get { return loadBalancerContext.Application; } }
+
+        public ILoadBalancerContext LoadBalancerContext { get { return loadBalancerContext; } }
+
         public abstract Server GetNext();
     }
 }

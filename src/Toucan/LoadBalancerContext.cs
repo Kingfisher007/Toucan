@@ -8,16 +8,15 @@ namespace Toucan
 {
     public class LoadBalancerContext : ILoadBalancerContext
     {
-        protected List<Server> servers;
+        protected ConcurrentList<Server> servers;
         protected List<ServerStats> serverStats;
         public event ServerListUpdated OnServerListUpdated;
         public event ServerStatAdded OnServerStatsAdded;
 
-        public LoadBalancerContext(string application, IDiscoveryProvider discoveryProvider)
+        public LoadBalancerContext(string application)
         {
             Application = application;
-            DiscoveryProvider = discoveryProvider;
-            servers = new List<Server>();
+            servers = new ConcurrentList<Server>();
             serverStats = new List<ServerStats>();
         }
 
@@ -25,12 +24,6 @@ namespace Toucan
         {
             get;
             protected set;
-        }
-
-        protected IDiscoveryProvider DiscoveryProvider
-        {
-            set;
-            get;
         }
 
         public IReadOnlyList<Server> Servers { get { return servers; } }

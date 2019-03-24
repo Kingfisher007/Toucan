@@ -14,5 +14,7 @@ namespace Toucan
         IReadOnlyList<ServerStats> ServerStats { get; }
         event ServerListUpdated OnServerListUpdated;
         event ServerStatAdded OnServerStatsAdded;
+
+        void AddServerStat(Server server, Status status, double duration);
     }
 }

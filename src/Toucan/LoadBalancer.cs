@@ -6,16 +6,22 @@ namespace Toucan
 {
     public class LoadBalancer : LoadBalancerBase
     {
-        public LoadBalancer(string application, IDiscoveryProvider discoveryProvider, IRule rule) : base(application, discoveryProvider, rule)
+        public LoadBalancer(IDiscoveryProvider discoveryProvider) : base(discoveryProvider)
         {
-
+            
         }
 
         public override T OnNext<T>(string name, Func<Server, Result<T>> func)
         {
             Status status = Status.Failed;
             int time = DateTime.Now.Millisecond;
-            
+
+            IRule rule = loadBalancers[name];
+            if(rule == null)
+            {
+                return default(T);
+            }
+
             Server server = rule.GetNext();
             if (server == null)
             {
@@ -38,7 +44,7 @@ namespace Toucan
             finally
             {
                 time = DateTime.Now.Millisecond - time;
-                loadBalancerContext.AddServerStat(server, status, time);
+                rule.LoadBalancerContext.AddServerStat(server, status, time);
             }
         }
     }

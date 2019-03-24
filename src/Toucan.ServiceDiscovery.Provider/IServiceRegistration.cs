@@ -1,11 +1,12 @@
 	using System;
     using System.Collections.Generic;
-	
-	namespace Toucan.ServiceDiscovery.Provider
+using System.Threading.Tasks;
+
+namespace Toucan.ServiceDiscovery.Provider
 	{
 		public interface IServiceRegistration
 		{
-			void Register(Server server);
-			void DeRegister(Server server);
+			Task Register(Server server);
+			Task DeRegister(Server server);
 		}
 	}
