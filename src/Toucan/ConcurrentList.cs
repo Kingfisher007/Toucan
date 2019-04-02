@@ -9,78 +9,215 @@ namespace Toucan
 {
     public class ConcurrentList<T> : IList<T>, IReadOnlyList<T>
     {
-        ReaderWriterLock rwLock;
+        List<T> items;
+        ReaderWriterLockSlim rwLock;
 
         public ConcurrentList()
         {
-            rwLock = new ReaderWriterLock();        
+            rwLock = new ReaderWriterLockSlim(); 
+            items = new List<T>();       
         }
 
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public T this[int index] 
+        { 
+            get
+            {
+                try 
+                { 
+                    rwLock.EnterReadLock();
+                    return this.items[index]; 
+                }
+                finally
+                {
+                    rwLock.ExitReadLock();
+                } 
+            } 
+            set
+            {
+                try 
+                { 
+                    rwLock.EnterWriteLock();
+                    this.items[index] = value;
+                }
+                finally
+                {
+                    rwLock.ExitWriteLock();
+                } 
+            } 
+        }
 
-        public int Count => throw new NotImplementedException();
+        public int Count
+        {
+            get 
+            { 
+                try 
+                { 
+                    rwLock.EnterReadLock();
+                    return this.items.Count; 
+                }
+                finally
+                {
+                    rwLock.ExitReadLock();
+                } 
+            }
+        }
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         public void Add(T item)
         {
-            
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.Add(item); 
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.Clear(); 
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterReadLock();
+                return this.items.Contains(item); 
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
+            }
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterReadLock();
+                this.items.CopyTo(array, arrayIndex); 
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
+            } 
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterReadLock();
+                return this.items.GetEnumerator(); 
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
+            } 
         }
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterReadLock();
+                return this.items.IndexOf(item); 
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
+            } 
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.Insert(index, item);
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                return this.items.Remove(item); 
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.RemoveAt(index);
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
-        internal void RemoveAll(Func<object, object> p)
+        internal void RemoveAll(Predicate<T> p)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.RemoveAll(p); 
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
-        internal void AddRange(IEnumerable<Server> newServers)
+        internal void AddRange(IEnumerable<T> newServers)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterWriteLock();
+                this.items.AddRange(newServers); 
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
+            } 
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                rwLock.EnterReadLock();
+                return this.items.GetEnumerator(); 
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
+            }
         }
     }
 }
