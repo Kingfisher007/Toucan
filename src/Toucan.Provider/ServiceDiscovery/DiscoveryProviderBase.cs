@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Toucan.ServiceDiscovery.Provider
+namespace Toucan.Provider.ServiceDiscovery
 {
     public abstract class DiscoveryProviderBase : IDiscoveryProvider, IServiceRegistration
     {

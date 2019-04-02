@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Toucan.ServiceDiscovery.Provider;
+using Toucan.Provider.ServiceDiscovery;
 
 namespace Toucan
 {

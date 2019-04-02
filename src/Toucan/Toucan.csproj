@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Toucan.ServiceDiscovery.Provider\Toucan.ServiceDiscovery.Provider.csproj" />
+    <ProjectReference Include="..\Toucan.Provider\Toucan.Provider.csproj" />
   </ItemGroup>
 
 </Project>
