@@ -1,6 +1,6 @@
 ﻿namespace Toucan
 {
-    public class ServerListChangeEventArgs
+    public class ServerListUpdatedEventArgs
     {
 
     }

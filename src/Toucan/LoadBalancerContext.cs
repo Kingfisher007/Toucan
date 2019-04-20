@@ -29,18 +29,21 @@ namespace Toucan
         public IReadOnlyList<Server> Servers { get { return servers; } }
         public IReadOnlyList<ServerStats> ServerStats { get { return serverStats; } }
 
-        internal void RaiseServerListChanged(ServerListChangeEventArgs EventArgs)
+        internal void RaiseServerListChanged(ServerListUpdatedEventArgs EventArgs)
         {
             OnServerListUpdated?.Invoke(this, EventArgs);
         }
 
         public void UpdateServerList(IList<Server> serversList)
         {
-            var newServers = from s in serversList
-                             where !serversList.Contains(s)
-                             select s;
-            servers.AddRange(newServers);
-            servers.RemoveAll(s => !serversList.Contains(s));
+            //var newServers = from s in serversList
+            //                 where !serversList.Contains(s)
+            //                 select s;
+            //servers.AddRange(newServers);
+            //servers.RemoveAll(s => !serversList.Contains(s));
+            servers.Clear();
+            servers.AddRange(serversList);
+            RaiseServerListChanged(new ServerListUpdatedEventArgs());
         }
 
         public void AddServerStat(Server server, Status status, double duration)
@@ -51,12 +54,12 @@ namespace Toucan
                 stat = new ServerStats(server);
             }
             stat.AddRequestResult(status, duration);
-            RaiseServerStatChanged(stat);
+            RaiseServerStatAdded(stat);
         }
 
-        internal void RaiseServerStatChanged(ServerStats stat)
+        internal void RaiseServerStatAdded(ServerStats stat)
         {
-            OnServerStatsAdded?.Invoke(this, new ServerStatChangedEventArgs());
+            OnServerStatsAdded?.Invoke(this, new ServerStatAddedEventArgs());
         }
     }
 }

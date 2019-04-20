@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Toucan.Provider;
 using Toucan.Provider.ServiceDiscovery;
 
 namespace Toucan
@@ -22,24 +23,29 @@ namespace Toucan
             loadBalancers.Add(rule.Application, rule);
         }
 
-        protected async Task Refresh()
+        public async Task Init()
+        {
+            await GetServersList();
+        }
+
+        protected async Task GetServersList()
         {
             Task[] tasks = new Task[loadBalancers.Count];
             int count = 0;
             foreach(var lb in loadBalancers)
             {
-                IRule current = lb.Value;
                 string application = lb.Key;
+                IRule current = lb.Value;
                 tasks[count] = Task.Run(async () => {
-                    List<Server> servers = await discoveryProvider.GetServers(application);
-                    current.LoadBalancerContext.Update(servers);
-                                              });
+                                                        List<Server> servers = await discoveryProvider.GetServers(application);
+                                                        current.LoadBalancerContext.UpdateServerList(servers);
+                                                    });
                 count++;
             }
 
             await Task.WhenAll(tasks);
         }
 
-        public abstract T OnNext<T>(string name, Func<Server, Result<T>> func);
+        public abstract Task<T> OnNext<T>(string name, Func<Server, Task<Result<T>>> func);
     }
 }

@@ -17,7 +17,7 @@ namespace Toucan
             loadBalancerContext.OnServerListUpdated += ServerListChangedEventHandler;
         }
 
-        protected void ServerListChangedEventHandler(Object sender, ServerListChangeEventArgs args)
+        protected void ServerListChangedEventHandler(Object sender, ServerListUpdatedEventArgs args)
         {
             session.Reset();
         }

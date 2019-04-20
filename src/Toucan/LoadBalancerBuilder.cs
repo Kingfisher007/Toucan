@@ -30,7 +30,7 @@ class LoadBalancerBuilder
 	
 	public ILoadBaLancer Create()
 	{
-		return new LoadBalancer(serviceDiscovery, option.LoadBalancerContext, rule)
+            return new LoadBalancer(serviceDiscovery, option.LoadBalancerContext, rule);
 	}
 }
 }

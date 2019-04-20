@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using Toucan.ServiceDiscovery.Provider;
+using Toucan.Provider.ServiceDiscovery;
 
 namespace Toucan
 {

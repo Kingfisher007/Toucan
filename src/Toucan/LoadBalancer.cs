@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Toucan.Provider;
 using Toucan.Provider.ServiceDiscovery;
 
 namespace Toucan
@@ -11,7 +13,7 @@ namespace Toucan
             
         }
 
-        public override T OnNext<T>(string name, Func<Server, Result<T>> func)
+        public override async Task<T> OnNext<T>(string name, Func<Server, Task<Result<T>>> func)
         {
             Status status = Status.Failed;
             int time = DateTime.Now.Millisecond;
@@ -30,7 +32,7 @@ namespace Toucan
 
             try
             {
-                Result<T> result = func(server);
+                Result<T> result = await func(server);
                 if (result == null)
                 {
                     return default(T);

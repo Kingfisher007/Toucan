@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Toucan.ServiceDiscovery.Provider;
+using Toucan.Provider;
+using Toucan.Provider.ServiceDiscovery;
 
 namespace Toucan
 {
-    public delegate void ServerListUpdated(object sender, ServerListChangeEventArgs eventArgs);
-    public delegate void ServerStatAdded(object sender, ServerStatChangedEventArgs eventArgs);
+    public delegate void ServerListUpdated(object sender, ServerListUpdatedEventArgs eventArgs);
+    public delegate void ServerStatAdded(object sender, ServerStatAddedEventArgs eventArgs);
 
     public interface ILoadBalancerContext
     {
@@ -16,5 +17,6 @@ namespace Toucan
         event ServerStatAdded OnServerStatsAdded;
 
         void AddServerStat(Server server, Status status, double duration);
+        void UpdateServerList(IList<Server> serversList)
     }
 }
